@@ -1,13 +1,19 @@
 package com.MyProjects;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class Server extends JFrame implements ActionListener {
+     JTextField text;
+     JPanel a1;
+     Box vertical = Box.createVerticalBox();
 
     public Server(){
          setLayout(null);
@@ -71,12 +77,11 @@ public class Server extends JFrame implements ActionListener {
          status.setForeground(Color.WHITE);
          p1.add(status);
 
-         JPanel p2 = new JPanel();
-         p2.setLayout(null);
-         p2.setBounds(5,75,440,570);
-         add(p2);
+         a1 = new JPanel();
+         a1.setBounds(5,75,440,570);
+         add(a1);
 
-         JTextField text = new JTextField();
+         text = new JTextField();
          text.setBounds(5,655,350,40);
          text.setFont(new Font("Arial",Font.PLAIN,16));
          add(text);
@@ -86,6 +91,7 @@ public class Server extends JFrame implements ActionListener {
          send.setBackground(new Color(7, 95, 85));
          send.setFont(new Font("Arial",Font.PLAIN,16));
          send.setForeground(Color.WHITE);
+         send.addActionListener(this);
          add(send);
 
 
@@ -98,6 +104,39 @@ public class Server extends JFrame implements ActionListener {
 
      @Override
      public void actionPerformed(ActionEvent e) {
+         String message = text.getText();
+          a1.setLayout(new BorderLayout());
 
+
+          JPanel p2 = formatLabel(message);
+
+
+         JPanel right = new JPanel(new BorderLayout());
+         right.add(p2,BorderLayout.LINE_END);
+         vertical.add(right);
+         vertical.add(Box.createVerticalStrut(15));
+         a1.add(vertical,BorderLayout.PAGE_START);
+         text.setText("");
+         repaint();
+         invalidate();
+         validate();
+     }
+     public static JPanel formatLabel(String s){
+         JPanel p2 = new JPanel();
+         p2.setLayout(new BoxLayout(p2,BoxLayout.Y_AXIS));
+         JLabel l = new JLabel("<html><p style =\" width: 150px\">" +s+ "</p></html>");
+         l.setFont(new Font("Tahoma",Font.PLAIN,16));
+         l.setForeground(Color.WHITE);
+         l.setBackground(new Color(7, 94, 84));
+         l.setOpaque(true);
+         l.setBorder(new EmptyBorder(15,15,15,50));
+         p2.add(l);
+
+         Calendar cal = Calendar.getInstance();
+         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+         JLabel l1 = new JLabel(sdf.format(cal.getTime()));
+         p2.add(l1);
+
+         return p2;
      }
 }
