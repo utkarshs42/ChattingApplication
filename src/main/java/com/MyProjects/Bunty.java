@@ -15,7 +15,7 @@ import java.util.Calendar;
 
 public class Bunty implements ActionListener {
     JTextField text;
-    JPanel a1;
+    static JPanel a1;
     static Box vertical = Box.createVerticalBox();
     static DataOutputStream dout;
     static JFrame f = new JFrame();
@@ -157,12 +157,16 @@ public class Bunty implements ActionListener {
             DataInputStream din = new DataInputStream(s.getInputStream());
             dout = new DataOutputStream(s.getOutputStream());
             while(true){
+                a1.setLayout(new BorderLayout());
                 String msg = din.readUTF();
                 JPanel panel = formatLabel(msg);
 
                 JPanel left = new JPanel(new BorderLayout());
                 left.add(panel,BorderLayout.LINE_START);
                 vertical.add(left);
+                vertical.add(Box.createVerticalStrut(15));
+                a1.add(vertical, BorderLayout.PAGE_START);
+
                 f.validate();
             }
         }catch(Exception e){
